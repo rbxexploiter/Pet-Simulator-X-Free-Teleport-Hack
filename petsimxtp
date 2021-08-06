@@ -1,0 +1,39 @@
+function tween(tweenModel)
+	tweenModel:TweenSize(UDim2.new(0.9,0, 0.9,0), nil, Enum.EasingStyle.Quart, 0.1)
+	wait(0.1)
+	tweenModel:TweenSize(UDim2.new(1,0, 1,0), nil, Enum.EasingStyle.Quart, 0.1)
+end
+if game:IsLoaded() then
+	local plr = game:GetService("Players").LocalPlayer
+	local teleport = plr.PlayerGui:WaitForChild("Main").Left.Tools.Teleport
+	local teleportUI = plr.PlayerGui:WaitForChild("Teleport")
+	local close = plr.PlayerGui.Teleport.Frame.Close
+	local randomName = game:GetService("HttpService"):GenerateGUID(false)
+	local debounce = false
+	local newTeleport
+	local newsound = Instance.new("Sound", game:GetService("SoundService"))
+	newsound.Name = randomName
+	newsound.SoundId = "rbxassetid://2668781453"
+	newTeleport = teleport:Clone()
+	newTeleport.Parent = teleport.Parent
+	newTeleport.Name = randomName
+	teleport:Destroy()
+	newTeleport.Lock:Destroy()
+	openned = true	
+	newTeleport.MouseButton1Click:Connect(function()
+		newsound:Play()
+		tween(newTeleport)
+		if debounce == false then
+			debounce = true
+			teleportUI.Enabled = debounce
+		elseif debounce == true then
+			debounce = false
+			teleportUI.Enabled = debounce
+		end
+	end)
+	close.MouseButton1Click:Connect(function()
+		if debounce == true then
+			debounce = false
+		end
+	end)
+end
